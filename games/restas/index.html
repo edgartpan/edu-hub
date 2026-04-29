@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Restas!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../shared/css/global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <div id="container">
+      <!-- Top Banner -->
+      <div class="top-banner">
+          <a href="../../index.html">&lt; Volver a inicio</a>
+          <button onclick="toggleSettings()">⚙️ Ajustes</button>
+      </div>
+
+      <!-- Score Banner -->
+      <div class="indicators">
+          <span>Correctas <span id="buenas">0</span>&nbsp;&nbsp;-&nbsp;</span>
+          <span><span id="malas">0</span> Incorrectas</span>
+      </div>
+      
+      <div style="text-align:center; padding-top: 50px;">
+        <span id="divsumando1" class="text"></span>
+        <span class="text">-</span>
+        <span id="divsumando2" class="text"></span>
+        <span class="text">=</span>
+      </div>
+      <br><br>
+      
+      <div style="text-align:center;">
+        <button id="btnopcion1" onclick="checkAnswer(1)" class="button-3d btn-opcion"></button>
+        <button id="btnopcion2" onclick="checkAnswer(2)" class="button-3d btn-opcion"></button>
+        <button id="btnopcion3" onclick="checkAnswer(3)" class="button-3d btn-opcion"></button>
+      </div>
+      <br>
+      
+      <div>
+        <img id="img" class="image" src="gifs/neutral.gif" alt="Feedback">
+      </div>
+      <div id="retro" class="text-retro">&nbsp;</div>
+      
+      <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+        <button id="level_ready" class="button-3d btn-ready">Generar</button>
+      </div>
+
+      <div id="inferior">
+        <div class="donation-banner" style="margin-top: 20px;">
+            Si esta aplicación te resultó útil, puedes <a href="https://paypal.me/edgartpan?country.x=MX&locale.x=es_XC" target="_blank">donar aquí</a>
+        </div>
+      </div>
+
+      <!-- Settings Overlay + Panel -->
+      <div id="settingsOverlay" style="display: none;"></div>
+      <div id="settingsPanel" style="display: none;">
+          <button onclick="cancelSettings()" class="close-btn">&#x2715;</button>
+          <div class="title" style="text-align:center; font-weight:bold; font-size:22px; margin-bottom: 20px;">
+              <span>Ajustes</span>
+          </div>
+          <div style="text-align: center; margin-bottom: 20px;">
+              <div class="difficulty-label" style="font-size: 18px;">Valor máximo de los números</div>
+              <div style="margin-top: 15px;">
+                  <button id="baja" onclick="decrease()" class="button-3d btn-control">-</button>
+                  <span id="difficulty" style="font-size:30px; margin: 0 15px;">5</span>
+                  <button id="sube" onclick="increase()" class="button-3d btn-control">+</button>
+              </div>
+          </div>
+          <div style="text-align: center;">
+              <button onclick="applySettings()" class="button-3d" style="width: auto; padding: 10px 40px; font-size: 18px;">OK</button>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
