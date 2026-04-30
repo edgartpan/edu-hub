@@ -12,12 +12,13 @@
  */
 
 const firebaseConfig = {
-    apiKey: "PEGAR_AQUI_TU_API_KEY",
-    authDomain: "tu-proyecto.firebaseapp.com",
-    projectId: "tu-proyecto",
-    storageBucket: "tu-proyecto.appspot.com",
-    messagingSenderId: "1234567890",
-    appId: "1:1234567890:web:abcdef"
+    apiKey: "AIzaSyAmHPNej3Qpmt4jb3V5Rbfrbm_MsEnWKVY",
+    authDomain: "math-hub-a45c5.firebaseapp.com",
+    projectId: "math-hub-a45c5",
+    storageBucket: "math-hub-a45c5.firebasestorage.app",
+    messagingSenderId: "3003341330",
+    appId: "1:3003341330:web:c35d806e7d09fbc83796cb",
+    measurementId: "G-XY314T89QP"
 };
 
 // Initialize Firebase
@@ -57,12 +58,12 @@ async function saveHighScore(gameId, playerName, score, settingsInfo) {
 async function getTopScores(gameId) {
     try {
         const snapshot = await db.collection("leaderboards")
-                                 .doc(gameId)
-                                 .collection("scores")
-                                 .orderBy("score", "desc")
-                                 .limit(10)
-                                 .get();
-        
+            .doc(gameId)
+            .collection("scores")
+            .orderBy("score", "desc")
+            .limit(10)
+            .get();
+
         let scores = [];
         snapshot.forEach(doc => {
             scores.push(doc.data());
@@ -79,10 +80,10 @@ async function getTopScores(gameId) {
  */
 async function isHighScore(gameId, newScore) {
     if (newScore <= 0) return false;
-    
+
     const scores = await getTopScores(gameId);
     if (scores.length < 10) return true; // Si hay menos de 10, siempre entra
-    
+
     // El último (menor) de la lista actual
     const lowestTopScore = scores[scores.length - 1].score;
     return newScore > lowestTopScore;
