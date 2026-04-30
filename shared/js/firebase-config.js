@@ -41,7 +41,7 @@ const db = firebase.firestore();
 async function saveHighScore(gameId, playerName, score, settingsInfo) {
     try {
         await db.collection("leaderboards").doc(gameId).collection("scores").add({
-            name: playerName.toUpperCase().substring(0, 3),
+            name: playerName.trim().substring(0, 15),
             score: Math.floor(score),
             date: firebase.firestore.FieldValue.serverTimestamp(),
             settings: settingsInfo

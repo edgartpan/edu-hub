@@ -219,5 +219,45 @@ function resetGame() {
     currentRacha = 0;
     racha_ui.innerHTML = currentRacha;
     score_ui.innerHTML = currentScore;
+    loadHighestScore();
     todo();
 }
+
+function cancelHighScore() {
+    document.getElementById("highScoreOverlay").style.display = "none";
+    document.getElementById("highScorePanel").style.display = "none";
+    resetGame();
+}
+
+async function showLeaderboard() {
+    document.getElementById("leaderboardOverlay").style.display = "block";
+    document.getElementById("leaderboardPanel").style.display = "block";
+    
+    let scores = await getTopScores("soroban");
+    let html = "";
+    if (scores.length === 0) {
+        html = "<p>No hay puntuaciones aún.</p>";
+    } else {
+        scores.forEach((s, idx) => {
+            html += `<div class="leaderboard-item">
+                <div class="lb-rank">#${idx + 1}</div>
+                <div class="lb-name">${s.name}</div>
+                <div class="lb-score">${s.score}</div>
+            </div>`;
+        });
+    }
+    document.getElementById("leaderboardContent").innerHTML = html;
+}
+
+function hideLeaderboard() {
+    document.getElementById("leaderboardOverlay").style.display = "none";
+    document.getElementById("leaderboardPanel").style.display = "none";
+}
+
+async function loadHighestScore() {
+    let top = await getTopScores("soroban");
+    if (top.length > 0 && document.getElementById("highscore_ui")) {
+        document.getElementById("highscore_ui").innerText = top[0].score;
+    }
+}
+loadHighestScore();

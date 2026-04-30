@@ -23,9 +23,11 @@
       </div>
 
       <!-- Score Banner -->
-      <div class="indicators">
-          <span>Racha: <span id="racha_ui" style="color: #58FFC2;">0</span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <div class="indicators" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; padding: 10px;">
+          <span>Racha: <span id="racha_ui" style="color: #58FFC2;">0</span></span>
           <span>Score: <span id="score_ui" style="color: #FFDD01;">0</span></span>
+          <span>Récord: <span id="highscore_ui" style="color: #FF2977;">0</span></span>
+          <button onclick="showLeaderboard()" class="button-3d" style="font-size: 14px; padding: 5px 15px; margin: 0; box-shadow: 2px 2px 0 #000;">🏆 Top 10</button>
       </div>
       
       <div style="text-align:center; padding-top: 50px;">
@@ -77,14 +79,22 @@
           </div>
       </div>
 
-      <!-- Arcade High Score Modal -->
+      <!-- High Score Modal -->
       <div id="highScoreOverlay"></div>
       <div id="highScorePanel">
-          <div class="arcade-title">¡NUEVO RÉCORD!</div>
-          <div style="font-size: 16px; margin-bottom: 10px;">Ingresa tus iniciales:</div>
-          <input type="text" id="initialsInput" class="initials-input" maxlength="3" autocomplete="off" oninput="this.value = this.value.toUpperCase()">
-          <br>
-          <button onclick="submitHighScore()" class="arcade-btn">Guardar</button>
+          <button onclick="cancelHighScore()" class="close-btn">&#x2715;</button>
+          <div class="title" style="text-align:center; font-weight:bold; font-size:22px; margin-bottom: 20px;">¡Nuevo Récord!</div>
+          <div style="font-size: 16px; margin-bottom: 10px;">Ingresa tu nombre:</div>
+          <input type="text" id="initialsInput" class="name-input" maxlength="15" autocomplete="off" placeholder="Tu nombre...">
+          <button onclick="submitHighScore()" class="button-3d" style="width: auto; padding: 10px 40px; margin-top: 10px;">Guardar</button>
+      </div>
+
+      <!-- Leaderboard Modal -->
+      <div id="leaderboardOverlay"></div>
+      <div id="leaderboardPanel">
+          <button onclick="hideLeaderboard()" class="close-btn">&#x2715;</button>
+          <div class="title" style="text-align:center; font-weight:bold; font-size:22px; margin-bottom: 20px;">Mejores Puntuaciones</div>
+          <div id="leaderboardContent">Cargando...</div>
       </div>
 
     </div>
