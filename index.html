@@ -19,49 +19,69 @@
         }
 
         .menu-title {
-            font-size: 60px;
+            font-size: 48px;
             font-weight: bold;
-            margin-top: 40px;
+            margin-top: 20px;
             color: #333;
             text-align: center;
         }
 
         .games-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-            padding: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            padding: 10px;
         }
 
         .game-card {
             background-color: white;
             border: 2px solid black;
-            border-radius: 15px;
-            padding: 40px 20px;
-            text-align: center;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 15px;
             cursor: pointer;
             text-decoration: none;
             color: black;
             transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 6px 6px 0px black;
+            box-shadow: 4px 4px 0px black;
         }
 
         .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 12px 12px 0px black;
+            transform: translateY(-3px);
+            box-shadow: 8px 8px 0px black;
+        }
+
+        .game-icon {
+            font-size: 32px;
+            background: #f0f0f0;
+            min-width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+
+        .game-info {
+            flex: 1;
         }
 
         .game-card h2 {
-            margin: 0 0 15px 0;
-            font-size: 32px;
+            margin: 0 0 5px 0;
+            font-size: 20px;
             color: #6358FF;
         }
 
         .game-card p {
             margin: 0;
-            font-size: 20px;
+            font-size: 14px;
             color: #555;
+            line-height: 1.3;
         }
     </style>
 </head>
@@ -71,18 +91,46 @@
         <h1 class="menu-title">Math Games Hub</h1>
         <div class="games-list">
             <a href="games/soroban/index.html" class="game-card">
-                <h2>Cálculo Mental</h2>
-                <p>Juego de secuencias numéricas (Soroban)</p>
+                <div class="game-icon">🧮</div>
+                <div class="game-info">
+                    <h2>Cálculo Mental</h2>
+                    <p>Secuencias numéricas (Soroban)</p>
+                </div>
             </a>
-
             <a href="games/sumas/index.html" class="game-card">
-                <h2>Sumas!</h2>
-                <p>Práctica de sumas con opciones múltiples</p>
+                <div class="game-icon">➕</div>
+                <div class="game-info">
+                    <h2>Sumas!</h2>
+                    <p>Práctica de sumas múltiples</p>
+                </div>
             </a>
-
             <a href="games/restas/index.html" class="game-card">
-                <h2>Restas!</h2>
-                <p>Práctica de restas con opciones múltiples</p>
+                <div class="game-icon">➖</div>
+                <div class="game-info">
+                    <h2>Restas!</h2>
+                    <p>Práctica de restas múltiples</p>
+                </div>
+            </a>
+            <a href="games/factores/index.html" class="game-card">
+                <div class="game-icon">🧩</div>
+                <div class="game-info">
+                    <h2>Factor Focus</h2>
+                    <p>Encuentra los factores de un número</p>
+                </div>
+            </a>
+            <a href="games/operadores/index.html" class="game-card">
+                <div class="game-icon">🕵️</div>
+                <div class="game-info">
+                    <h2>Operator Hunt</h2>
+                    <p>Descubre el operador oculto</p>
+                </div>
+            </a>
+            <a href="games/magnitudes/index.html" class="game-card">
+                <div class="game-icon">⚖️</div>
+                <div class="game-info">
+                    <h2>Magnitude Clash</h2>
+                    <p>Compara y elige el mayor valor</p>
+                </div>
             </a>
         </div>
 
