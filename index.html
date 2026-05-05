@@ -83,32 +83,42 @@
             color: #555;
             line-height: 1.3;
         }
+
+        .level-header {
+            width: 100%;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-align: left;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 5px;
+            color: #333;
+        }
+        .level-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .level-header p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            color: #666;
+        }
     </style>
 </head>
 
 <body>
     <div class="hub-container">
         <h1 class="menu-title">Math Games Hub</h1>
+
+        <div class="level-header">
+            <h2>🟢 Nivel 1: Fundamentos</h2>
+            <p>Operaciones básicas y tamaños</p>
+        </div>
         <div class="games-list">
-            <a href="games/soroban/index.html" class="game-card">
-                <div class="game-icon">🧮</div>
-                <div class="game-info">
-                    <h2>Cálculo Mental</h2>
-                    <p>Secuencias numéricas (Soroban)</p>
-                </div>
-            </a>
             <a href="games/sumas/index.html" class="game-card">
                 <div class="game-icon">➕</div>
                 <div class="game-info">
                     <h2>Sumas!</h2>
                     <p>Práctica de sumas múltiples</p>
-                </div>
-            </a>
-            <a href="games/sumas-teclado/index.html" class="game-card">
-                <div class="game-icon">⌨️</div>
-                <div class="game-info">
-                    <h2>Sumas! (Teclado)</h2>
-                    <p>Digita el resultado exacto</p>
                 </div>
             </a>
             <a href="games/restas/index.html" class="game-card">
@@ -118,6 +128,20 @@
                     <p>Práctica de restas múltiples</p>
                 </div>
             </a>
+            <a href="games/magnitudes/index.html" class="game-card">
+                <div class="game-icon">⚖️</div>
+                <div class="game-info">
+                    <h2>Magnitude Clash</h2>
+                    <p>Compara y elige el mayor valor</p>
+                </div>
+            </a>
+            <a href="games/sumas-teclado/index.html" class="game-card">
+                <div class="game-icon">⌨️</div>
+                <div class="game-info">
+                    <h2>Sumas! (Teclado)</h2>
+                    <p>Digita el resultado exacto</p>
+                </div>
+            </a>
             <a href="games/restas-teclado/index.html" class="game-card">
                 <div class="game-icon">⌨️</div>
                 <div class="game-info">
@@ -125,18 +149,18 @@
                     <p>Digita el resultado exacto</p>
                 </div>
             </a>
+        </div>
+
+        <div class="level-header">
+            <h2>🟡 Nivel 2: Intermedio</h2>
+            <p>Cálculo con múltiples agrupaciones</p>
+        </div>
+        <div class="games-list">
             <a href="games/multiplicaciones/index.html" class="game-card">
                 <div class="game-icon">✖️</div>
                 <div class="game-info">
                     <h2>Multiplicaciones!</h2>
                     <p>Práctica de multiplicaciones múltiples</p>
-                </div>
-            </a>
-            <a href="games/multiplicaciones-teclado/index.html" class="game-card">
-                <div class="game-icon">⌨️</div>
-                <div class="game-info">
-                    <h2>Multiplicaciones! (Teclado)</h2>
-                    <p>Digita el resultado exacto</p>
                 </div>
             </a>
             <a href="games/divisiones/index.html" class="game-card">
@@ -146,11 +170,32 @@
                     <p>Práctica de divisiones múltiples</p>
                 </div>
             </a>
+            <a href="games/multiplicaciones-teclado/index.html" class="game-card">
+                <div class="game-icon">⌨️</div>
+                <div class="game-info">
+                    <h2>Multiplicaciones! (Teclado)</h2>
+                    <p>Digita el resultado exacto</p>
+                </div>
+            </a>
             <a href="games/divisiones-teclado/index.html" class="game-card">
                 <div class="game-icon">⌨️</div>
                 <div class="game-info">
                     <h2>Divisiones! (Teclado)</h2>
                     <p>Digita el resultado exacto</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="level-header">
+            <h2>🔴 Nivel 3: Desafío Mental</h2>
+            <p>Lógica, relaciones inversas y agilidad extrema</p>
+        </div>
+        <div class="games-list">
+            <a href="games/operadores/index.html" class="game-card">
+                <div class="game-icon">🕵️</div>
+                <div class="game-info">
+                    <h2>Operator Hunt</h2>
+                    <p>Descubre el operador oculto</p>
                 </div>
             </a>
             <a href="games/factores/index.html" class="game-card">
@@ -160,22 +205,28 @@
                     <p>Encuentra los factores de un número</p>
                 </div>
             </a>
-            <a href="games/operadores/index.html" class="game-card">
-                <div class="game-icon">🕵️</div>
+            <a href="games/soroban/index.html" class="game-card">
+                <div class="game-icon">🧮</div>
                 <div class="game-info">
-                    <h2>Operator Hunt</h2>
-                    <p>Descubre el operador oculto</p>
-                </div>
-            </a>
-            <a href="games/magnitudes/index.html" class="game-card">
-                <div class="game-icon">⚖️</div>
-                <div class="game-info">
-                    <h2>Magnitude Clash</h2>
-                    <p>Compara y elige el mayor valor</p>
+                    <h2>Cálculo Mental</h2>
+                    <p>Secuencias numéricas (Soroban)</p>
                 </div>
             </a>
         </div>
 
+        <div class="level-header">
+            <h2>🟣 Nivel 4: Experimento Visual</h2>
+            <p>Geometría y lógica visual interactiva</p>
+        </div>
+        <div class="games-list">
+            <a href="games/geometria/index.html" class="game-card">
+                <div class="game-icon">📐</div>
+                <div class="game-info">
+                    <h2>Visual Geometry</h2>
+                    <p>Calcula lados y ángulos</p>
+                </div>
+            </a>
+        </div>
 
     </div>
 </body>
