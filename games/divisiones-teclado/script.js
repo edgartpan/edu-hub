@@ -21,17 +21,19 @@ racha_ui.innerHTML = currentRacha;
 score_ui.innerHTML = currentScore;
 //  difficulty
 var dificultad_set = 5;
-difficulty_value.innerHTML=dificultad_set
+difficulty_value.value = dificultad_set
 
 //modify difficulty
 function increase(){
   dificultad_set = dificultad_set + 1;
-  difficulty_value.innerHTML=dificultad_set;
+  difficulty_value.value = dificultad_set;
 }
 
 function decrease(){
-  dificultad_set = dificultad_set - 1;
-  difficulty_value.innerHTML=dificultad_set;
+  if (dificultad_set > 2) {
+    dificultad_set = dificultad_set - 1;
+    difficulty_value.value = dificultad_set;
+  }
 }
 level_ready.addEventListener('click', generate);
 
@@ -96,11 +98,7 @@ function validar() {
     if (val === correcto) {
         right_answer();
     } else {
-        currentRacha = 0;
-        racha_ui.innerHTML = currentRacha;
-        retro.innerHTML = "Era " + correcto;
-        retro.style.color = "#FF2977";
-        imagen.src = "gifs/no.gif";
+        wrong_answer();
         userAnswer.value = "";
         userAnswer.focus();
     }
@@ -120,7 +118,7 @@ function toggleSettings() {
 
 function updateDifficulty(val) {
     let num = parseInt(val);
-    if (!isNaN(num) && num >= 10) {
+    if (!isNaN(num) && num >= 2) {
         dificultad_set = num;
     } else {
         difficulty.value = dificultad_set;

@@ -252,3 +252,13 @@ body {
 .lb-rank { font-weight: bold; width: 25px; color: #6358FF; }
 .lb-name { flex-grow: 1; text-align: left; padding-left: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
 .lb-score { font-weight: bold; color: #FF2977; }
+
+/* Hide native spinner arrows for number inputs */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
