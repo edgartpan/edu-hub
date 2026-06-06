@@ -5,267 +5,704 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Games Hub</title>
+    
+    <!-- CSS styles -->
     <link rel="stylesheet" href="shared/css/global.css">
-    <style>
-        body {
-            background-color: #F5F5F5;
-            /* Eliminamos el gris oscuro para el hub principal */
-        }
-
-        .hub-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .menu-title {
-            font-size: 48px;
-            font-weight: bold;
-            margin-top: 20px;
-            color: #333;
-            text-align: center;
-        }
-
-        .games-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-            padding: 10px;
-        }
-
-        .game-card {
-            background-color: white;
-            border: 2px solid black;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            text-decoration: none;
-            color: black;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 4px 4px 0px black;
-        }
-
-        .game-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 8px 8px 0px black;
-        }
-
-        .game-icon {
-            font-size: 32px;
-            background: #f0f0f0;
-            min-width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            border: 2px solid #ddd;
-        }
-
-        .game-info {
-            flex: 1;
-        }
-
-        .game-card h2 {
-            margin: 0 0 5px 0;
-            font-size: 20px;
-            color: #6358FF;
-        }
-
-        .game-card p {
-            margin: 0;
-            font-size: 14px;
-            color: #555;
-            line-height: 1.3;
-        }
-
-        .level-header {
-            width: 100%;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            text-align: left;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 5px;
-            color: #333;
-        }
-
-        .level-header h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .level-header p {
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            color: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="shared/css/hub.css">
+    
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+    <script src="shared/js/firebase-config.js"></script>
 </head>
 
 <body>
+    <!-- Floating background container -->
+    <div class="math-bg" id="math-bg"></div>
+
     <div class="hub-container">
-        <h1 class="menu-title">Math Games Hub</h1>
+        <!-- Hero Dashboard -->
+        <header class="hero">
+            <h1 class="hero-title">Math Games <span>Hub</span></h1>
+            <p class="hero-subtitle">
+                El centro definitivo de juegos matemáticos interactivos. Desafía tu mente, mejora tu agilidad numérica y compite por los récords globales.
+            </p>
+            
+            <div class="hero-controls">
+                <button class="neobrutal-btn-large btn-accent" onclick="openLeaderboardModal()">
+                    Récords Globales
+                </button>
+            </div>
+        </header>
 
-        <div class="level-header">
-            <h2>Nivel 1: Fundamentos</h2>
-            <p>Operaciones básicas y tamaños</p>
-        </div>
-        <div class="games-list">
-            <a href="games/sumas/index.html" class="game-card">
-                <div class="game-icon">➕</div>
-                <div class="game-info">
-                    <h2>Sumas!</h2>
-                    <p>Práctica de sumas múltiples</p>
-                </div>
-            </a>
-            <a href="games/restas/index.html" class="game-card">
-                <div class="game-icon">➖</div>
-                <div class="game-info">
-                    <h2>Restas!</h2>
-                    <p>Práctica de restas múltiples</p>
-                </div>
-            </a>
-            <a href="games/magnitudes/index.html" class="game-card">
-                <div class="game-icon">⚖️</div>
-                <div class="game-info">
-                    <h2>Magnitude Clash</h2>
-                    <p>Compara y elige el mayor valor</p>
-                </div>
-            </a>
-            <a href="games/sumas-teclado/index.html" class="game-card">
-                <div class="game-icon">⌨️</div>
-                <div class="game-info">
-                    <h2>Sumas! (Teclado)</h2>
-                    <p>Digita el resultado exacto</p>
-                </div>
-            </a>
-            <a href="games/restas-teclado/index.html" class="game-card">
-                <div class="game-icon">⌨️</div>
-                <div class="game-info">
-                    <h2>Restas! (Teclado)</h2>
-                    <p>Digita el resultado exacto</p>
-                </div>
-            </a>
-            <a href="games/reloj/index.html" class="game-card">
-                <div class="game-icon">⏱️</div>
-                <div class="game-info">
-                    <h2>Time Master</h2>
-                    <p>Aprende a leer el reloj</p>
-                </div>
-            </a>
+        <!-- Filters and Controls -->
+        <section class="control-bar">
+            <div class="filter-group">
+                <span class="control-label">Ordenar juegos por:</span>
+                <button id="filter-nivel" class="filter-btn active" onclick="switchView('nivel')">
+                    Por Nivel
+                </button>
+                <button id="filter-categoria" class="filter-btn" onclick="switchView('categoria')">
+                    Por Categoría
+                </button>
+                <button id="filter-tipo" class="filter-btn" onclick="switchView('tipo')">
+                    Por Respuesta
+                </button>
+                <button id="filter-todos" class="filter-btn" onclick="switchView('todos')">
+                    Todos los Juegos
+                </button>
+            </div>
+        </section>
+
+        <!-- Category sub-filters, visible when viewing category/all -->
+        <div class="sub-filters" id="sub-filters" style="display: none;">
+            <button class="sub-filter-btn active" onclick="filterByCategory('all', this)">Todos los temas</button>
+            <button class="sub-filter-btn" onclick="filterByCategory('aritmetica', this)">Aritmética</button>
+            <button class="sub-filter-btn" onclick="filterByCategory('comparacion', this)">Fracciones y Magnitudes</button>
+            <button class="sub-filter-btn" onclick="filterByCategory('logica', this)">Lógica e Incógnitas</button>
+            <button class="sub-filter-btn" onclick="filterByCategory('visual', this)">Visual y Medición</button>
         </div>
 
-        <div class="level-header">
-            <h2>Nivel 2: Intermedio</h2>
-            <p>Cálculo con múltiples agrupaciones</p>
-        </div>
-        <div class="games-list">
-            <a href="games/multiplicaciones/index.html" class="game-card">
-                <div class="game-icon">✖️</div>
-                <div class="game-info">
-                    <h2>Multiplicaciones!</h2>
-                    <p>Práctica de multiplicaciones múltiples</p>
-                </div>
-            </a>
-            <a href="games/divisiones/index.html" class="game-card">
-                <div class="game-icon">➗</div>
-                <div class="game-info">
-                    <h2>Divisiones!</h2>
-                    <p>Práctica de divisiones múltiples</p>
-                </div>
-            </a>
-            <a href="games/multiplicaciones-teclado/index.html" class="game-card">
-                <div class="game-icon">⌨️</div>
-                <div class="game-info">
-                    <h2>Multiplicaciones! (Teclado)</h2>
-                    <p>Digita el resultado exacto</p>
-                </div>
-            </a>
-            <a href="games/divisiones-teclado/index.html" class="game-card">
-                <div class="game-icon">⌨️</div>
-                <div class="game-info">
-                    <h2>Divisiones! (Teclado)</h2>
-                    <p>Digita el resultado exacto</p>
-                </div>
-            </a>
-            <a href="games/fracciones/index.html" class="game-card">
-                <div class="game-icon">🍕</div>
-                <div class="game-info">
-                    <h2>Fraction Fusion</h2>
-                    <p>Suma y resta de fracciones</p>
-                </div>
-            </a>
-        </div>
+        <!-- Main game lists display -->
+        <main id="games-container"></main>
 
-        <div class="level-header">
-            <h2>Nivel 3: Desafío Mental</h2>
-            <p>Lógica, relaciones inversas y agilidad extrema</p>
-        </div>
-        <div class="games-list">
-            <a href="games/operadores/index.html" class="game-card">
-                <div class="game-icon">🕵️</div>
-                <div class="game-info">
-                    <h2>Operator Hunt</h2>
-                    <p>Descubre el operador oculto</p>
-                </div>
-            </a>
-            <a href="games/factores/index.html" class="game-card">
-                <div class="game-icon">🧩</div>
-                <div class="game-info">
-                    <h2>Factor Focus</h2>
-                    <p>Encuentra los factores de un número</p>
-                </div>
-            </a>
-            <a href="games/soroban/index.html" class="game-card">
-                <div class="game-icon">🧮</div>
-                <div class="game-info">
-                    <h2>Cálculo Mental</h2>
-                    <p>Secuencias numéricas (Soroban)</p>
-                </div>
-            </a>
-            <a href="games/secuencias/index.html" class="game-card">
-                <div class="game-icon">🔢</div>
-                <div class="game-info">
-                    <h2>Sequence Solver</h2>
-                    <p>Encuentra el patrón lógico</p>
-                </div>
-            </a>
-            <a href="games/ecuaciones/index.html" class="game-card">
-                <div class="game-icon">⚖️</div>
-                <div class="game-info">
-                    <h2>Balance Equation</h2>
-                    <p>Descubre el valor de X</p>
-                </div>
-            </a>
-        </div>
-
-        <div class="level-header">
-            <h2>Nivel 4: Experimento Visual</h2>
-            <p>Geometría y lógica visual interactiva</p>
-        </div>
-        <div class="games-list">
-            <a href="games/geometria/index.html" class="game-card">
-                <div class="game-icon">📐</div>
-                <div class="game-info">
-                    <h2>Visual Geometry</h2>
-                    <p>Calcula lados y ángulos</p>
-                </div>
-            </a>
-            <a href="games/estadistica/index.html" class="game-card">
-                <div class="game-icon">📊</div>
-                <div class="game-info">
-                    <h2>Data Detective</h2>
-                    <p>Lee y analiza gráficas</p>
-                </div>
-            </a>
-        </div>
-
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2026 Math Games Hub. Desarrollado con pasión matemática.</p>
+        </footer>
     </div>
+
+    <!-- Global Leaderboard Modal -->
+    <div class="modal-overlay" id="leaderboard-modal-overlay" onclick="handleOverlayClick(event)">
+        <div class="neobrutal-modal">
+            <div class="modal-header">
+                <h2 class="modal-title font-heading">Récords Globales</h2>
+                <button class="modal-close" onclick="closeLeaderboardModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="dropdown-container">
+                    <label for="leaderboard-game-select" class="dropdown-label">Selecciona el juego</label>
+                    <select id="leaderboard-game-select" class="neobrutal-select" onchange="loadLeaderboardData()">
+                        <!-- Loaded dynamically -->
+                    </select>
+                </div>
+                
+                <div class="leaderboard-content" id="leaderboard-content">
+                    <!-- Leaderboard scores rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation banner anchored to the bottom -->
+    <div class="donation-banner">
+        Si esta aplicación te resultó útil, puedes <a href="https://paypal.me/edgartpan?country.x=MX&locale.x=es_XC" target="_blank">donar aquí</a>
+    </div>
+
+    <!-- Hub Page JS Logic -->
+    <script>
+        const GAMES = [
+            {
+                id: "sumas",
+                name: "Sumas",
+                symbol: "+",
+                url: "games/sumas/index.html",
+                level: 1,
+                levelName: "Nivel 1: Fundamentos",
+                category: "aritmetica",
+                categoryName: "Aritmética",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Práctica interactiva de sumas múltiples con opciones rápidas."
+            },
+            {
+                id: "restas",
+                name: "Restas",
+                symbol: "−",
+                url: "games/restas/index.html",
+                level: 1,
+                levelName: "Nivel 1: Fundamentos",
+                category: "aritmetica",
+                categoryName: "Aritmética",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Práctica interactiva de restas múltiples con opciones rápidas."
+            },
+            {
+                id: "magnitudes",
+                name: "Comparación de Magnitudes",
+                symbol: ">",
+                url: "games/magnitudes/index.html",
+                level: 1,
+                levelName: "Nivel 1: Fundamentos",
+                category: "comparacion",
+                categoryName: "Fracciones y Magnitudes",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Compara expresiones matemáticas y selecciona la de mayor valor."
+            },
+            {
+                id: "sumas-teclado",
+                name: "Sumas (Teclado)",
+                symbol: "+K",
+                url: "games/sumas-teclado/index.html",
+                level: 1,
+                levelName: "Nivel 1: Fundamentos",
+                category: "aritmetica",
+                categoryName: "Aritmética",
+                responseType: "abierta",
+                responseTypeName: "Respuesta Abierta",
+                desc: "Digita la respuesta exacta a las sumas en lugar de elegir opciones."
+            },
+            {
+                id: "restas-teclado",
+                name: "Restas (Teclado)",
+                symbol: "−K",
+                url: "games/restas-teclado/index.html",
+                level: 1,
+                levelName: "Nivel 1: Fundamentos",
+                category: "aritmetica",
+                categoryName: "Aritmética",
+                responseType: "abierta",
+                responseTypeName: "Respuesta Abierta",
+                desc: "Digita la respuesta exacta a las restas en lugar de elegir opciones."
+            },
+            {
+                id: "reloj",
+                name: "Lectura del Reloj",
+                symbol: "◷",
+                url: "games/reloj/index.html",
+                level: 1,
+                levelName: "Nivel 1: Fundamentos",
+                category: "visual",
+                categoryName: "Visual y Medición",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Lee la hora en relojes analógicos interactivos con manecillas."
+            },
+            {
+                id: "multiplicaciones",
+                name: "Multiplicaciones",
+                symbol: "×",
+                url: "games/multiplicaciones/index.html",
+                level: 2,
+                levelName: "Nivel 2: Intermedio",
+                category: "aritmetica",
+                categoryName: "Aritmética",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Repasa las tablas de multiplicar y practica multiplicaciones múltiples."
+            },
+            {
+                id: "divisiones",
+                name: "Divisiones",
+                symbol: "÷",
+                url: "games/divisiones/index.html",
+                level: 2,
+                levelName: "Nivel 2: Intermedio",
+                category: "aritmetica",
+                categoryName: "Aritmética",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Practica divisiones numéricas enteras y estimula tu cálculo mental."
+            },
+            {
+                id: "multiplicaciones-teclado",
+                name: "Multiplicaciones (Teclado)",
+                symbol: "×K",
+                url: "games/multiplicaciones-teclado/index.html",
+                level: 2,
+                levelName: "Nivel 2: Intermedio",
+                category: "aritmetica",
+                categoryName: "Aritmética",
+                responseType: "abierta",
+                responseTypeName: "Respuesta Abierta",
+                desc: "Digita la solución exacta a las multiplicaciones lo más rápido posible."
+            },
+            {
+                id: "divisiones-teclado",
+                name: "Divisiones (Teclado)",
+                symbol: "÷K",
+                url: "games/divisiones-teclado/index.html",
+                level: 2,
+                levelName: "Nivel 2: Intermedio",
+                category: "aritmetica",
+                categoryName: "Aritmética",
+                responseType: "abierta",
+                responseTypeName: "Respuesta Abierta",
+                desc: "Digita la solución exacta a las divisiones lo más rápido posible."
+            },
+            {
+                id: "fracciones",
+                name: "Suma y Resta de Fracciones",
+                symbol: "½",
+                url: "games/fracciones/index.html",
+                level: 2,
+                levelName: "Nivel 2: Intermedio",
+                category: "comparacion",
+                categoryName: "Fracciones y Magnitudes",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Aprende a sumar y restar fracciones con representaciones visuales."
+            },
+            {
+                id: "operadores",
+                name: "Operador Oculto",
+                symbol: "?",
+                url: "games/operadores/index.html",
+                level: 3,
+                levelName: "Nivel 3: Desafío Mental",
+                category: "logica",
+                categoryName: "Lógica e Incógnitas",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Descubre el operador que falta para hacer correcta la ecuación."
+            },
+            {
+                id: "factores",
+                name: "Encuentra Factores",
+                symbol: "f",
+                url: "games/factores/index.html",
+                level: 3,
+                levelName: "Nivel 3: Desafío Mental",
+                category: "logica",
+                categoryName: "Lógica e Incógnitas",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Deduce los dos factores primos o enteros que dan la cifra deseada."
+            },
+            {
+                id: "soroban",
+                name: "Cálculo Mental",
+                symbol: "Σ",
+                url: "games/soroban/index.html",
+                level: 3,
+                levelName: "Nivel 3: Desafío Mental",
+                category: "logica",
+                categoryName: "Lógica e Incógnitas",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Resuelve una cascada rápida de sumas y restas mentalmente."
+            },
+            {
+                id: "secuencias",
+                name: "Patrones Numéricos",
+                symbol: "1..",
+                url: "games/secuencias/index.html",
+                level: 3,
+                levelName: "Nivel 3: Desafío Mental",
+                category: "logica",
+                categoryName: "Lógica e Incógnitas",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Adivina el número que sigue analizando el patrón de la secuencia."
+            },
+            {
+                id: "ecuaciones",
+                name: "Resolución de Ecuaciones",
+                symbol: "x",
+                url: "games/ecuaciones/index.html",
+                level: 3,
+                levelName: "Nivel 3: Desafío Mental",
+                category: "logica",
+                categoryName: "Lógica e Incógnitas",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Resuelve ecuaciones lineales sencillas y encuentra el valor de la incógnita X."
+            },
+            {
+                id: "geometria",
+                name: "Geometría Visual",
+                symbol: "▵",
+                url: "games/geometria/index.html",
+                level: 4,
+                levelName: "Nivel 4: Experimento Visual",
+                category: "visual",
+                categoryName: "Visual y Medición",
+                responseType: "multiple",
+                responseTypeName: "Opción Múltiple",
+                desc: "Calcula perímetros, áreas, lados y ángulos en polígonos aleatorios."
+            }
+        ];
+
+        // Global Record Cache
+        const GAME_RECORDS = {};
+
+        let currentView = 'nivel'; // 'nivel' | 'categoria' | 'tipo' | 'todos'
+        let currentCategoryFilter = 'all';
+
+        // Initialize elements
+        document.addEventListener('DOMContentLoaded', () => {
+            initBackgroundMath();
+            initLeaderboardSelect();
+            renderGames();
+            loadAllHighestScores();
+        });
+
+        // Background animated symbols
+        function initBackgroundMath() {
+            const bg = document.getElementById('math-bg');
+            const symbols = ['+', '−', '×', '÷', '=', 'X', 'Y', 'π', '%', '√', 'Σ', '?', '1', '2', '3'];
+            const count = 25;
+            
+            for (let i = 0; i < count; i++) {
+                const span = document.createElement('span');
+                span.className = 'math-symbol';
+                span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                span.style.left = Math.random() * 100 + 'vw';
+                
+                const duration = 12 + Math.random() * 20;
+                const delay = -Math.random() * duration;
+                span.style.animation = `floatUp ${duration}s linear infinite`;
+                span.style.animationDelay = `${delay}s`;
+                
+                span.style.fontSize = (1.2 + Math.random() * 2) + 'rem';
+                span.style.opacity = 0.04 + Math.random() * 0.12;
+                
+                bg.appendChild(span);
+            }
+        }
+
+        // Fetch all top records concurrently
+        async function loadAllHighestScores() {
+            try {
+                if (typeof getTopScores === 'undefined') {
+                    return; // Leaderboard API not available
+                }
+                
+                const promises = GAMES.map(async (game) => {
+                    try {
+                        const scores = await getTopScores(game.id);
+                        if (scores && scores.length > 0) {
+                            return { id: game.id, score: scores[0].score, name: scores[0].name };
+                        }
+                    } catch (err) {
+                        console.error(`Error loading record for ${game.id}:`, err);
+                    }
+                    return { id: game.id, score: null, name: null };
+                });
+                
+                const results = await Promise.all(promises);
+                
+                results.forEach(res => {
+                    GAME_RECORDS[res.id] = { score: res.score, name: res.name };
+                    updateCardRecordUI(res.id, res.score, res.name);
+                });
+            } catch (error) {
+                console.error("Error global al cargar los récords:", error);
+            }
+        }
+
+        function updateCardRecordUI(gameId, score, name) {
+            const el = document.getElementById(`record-${gameId}`);
+            if (!el) return;
+            
+            if (score !== null && score !== undefined) {
+                el.innerHTML = `
+                    <span class="record-label">Récord actual: <span class="record-value">${score} pts</span></span>
+                    <span class="record-name">${escapeHtml(name)}</span>
+                `;
+            } else {
+                el.innerHTML = `
+                    <span class="record-label" style="font-weight: normal; color: var(--text-muted);">Sin récords</span>
+                `;
+            }
+        }
+
+        // View Toggling
+        function switchView(viewType) {
+            currentView = viewType;
+            
+            // Toggle active classes on buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`filter-${viewType}`).classList.add('active');
+            
+            // Show category subfilters if view is 'todos'
+            const subFilters = document.getElementById('sub-filters');
+            if (viewType === 'todos') {
+                subFilters.style.display = 'flex';
+            } else {
+                subFilters.style.display = 'none';
+                currentCategoryFilter = 'all';
+                document.querySelectorAll('.sub-filter-btn').forEach(btn => btn.classList.remove('active'));
+                const defaultSubBtn = document.querySelector('.sub-filter-btn');
+                if (defaultSubBtn) defaultSubBtn.classList.add('active');
+            }
+            
+            renderGames();
+        }
+
+        function filterByCategory(category, btnElement) {
+            currentCategoryFilter = category;
+            
+            // Manage active button
+            document.querySelectorAll('.sub-filter-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnElement) {
+                btnElement.classList.add('active');
+            } else {
+                const firstBtn = document.querySelector('.sub-filter-btn');
+                if (firstBtn) firstBtn.classList.add('active');
+            }
+            
+            renderGames();
+        }
+
+        // Game Rendering engine
+        function renderGames() {
+            const container = document.getElementById('games-container');
+            container.innerHTML = '';
+            
+            // Apply category filters
+            const filteredGames = GAMES.filter(game => {
+                const matchesCategory = currentCategoryFilter === 'all' || game.category === currentCategoryFilter;
+                return matchesCategory;
+            });
+
+            if (filteredGames.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results font-heading">
+                        <p style="font-size: 1.5rem; margin-bottom: 10px;">No se encontraron juegos</p>
+                        <p style="font-weight: normal; font-size: 1rem; color: var(--text-muted);">Prueba limpiando los filtros seleccionados.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (currentView === 'todos') {
+                const grid = document.createElement('div');
+                grid.className = 'games-grid';
+                filteredGames.forEach(game => {
+                    grid.appendChild(createCard(game));
+                });
+                container.appendChild(grid);
+            } else if (currentView === 'nivel') {
+                const levels = [
+                    { id: 1, title: 'Nivel 1: Fundamentos', desc: 'Operaciones básicas y tamaños', color: 'var(--lvl-1-accent)' },
+                    { id: 2, title: 'Nivel 2: Intermedio', desc: 'Cálculo con múltiples agrupaciones', color: 'var(--lvl-2-accent)' },
+                    { id: 3, title: 'Nivel 3: Desafío Mental', desc: 'Lógica, relaciones inversas y agilidad extrema', color: 'var(--lvl-3-accent)' },
+                    { id: 4, title: 'Nivel 4: Experimento Visual', desc: 'Geometría y lógica visual interactiva', color: 'var(--lvl-4-accent)' }
+                ];
+
+                levels.forEach(lvl => {
+                    const lvlGames = filteredGames.filter(g => g.level === lvl.id);
+                    if (lvlGames.length > 0) {
+                        const section = document.createElement('div');
+                        section.className = 'level-group-section';
+                        section.innerHTML = `
+                            <h2 class="group-title font-heading">
+                                ${lvl.title}
+                                <span class="badge" style="background-color: ${lvl.color}; border: 2px solid var(--border);">Lvl ${lvl.id}</span>
+                            </h2>
+                            <p style="color: var(--text-muted); margin-top: -12px; margin-bottom: 25px; font-size: 0.95rem;">${lvl.desc}</p>
+                        `;
+                        const grid = document.createElement('div');
+                        grid.className = 'games-grid';
+                        lvlGames.forEach(game => {
+                            grid.appendChild(createCard(game));
+                        });
+                        section.appendChild(grid);
+                        container.appendChild(section);
+                    }
+                });
+            } else if (currentView === 'categoria') {
+                const categories = [
+                    { id: 'aritmetica', title: 'Aritmética', desc: 'Operaciones básicas de suma, resta, multiplicación y división, tanto de opción múltiple como de respuesta abierta.' },
+                    { id: 'comparacion', title: 'Fracciones y Magnitudes', desc: 'Comparación de valores y operaciones con fracciones.' },
+                    { id: 'logica', title: 'Lógica e Incógnitas', desc: 'Cálculo mental, secuencias lógicas y resolución de ecuaciones.' },
+                    { id: 'visual', title: 'Visual y Medición', desc: 'Lectura del reloj analógico y geometría visual.' }
+                ];
+
+                categories.forEach(cat => {
+                    const catGames = filteredGames.filter(g => g.category === cat.id);
+                    if (catGames.length > 0) {
+                        const section = document.createElement('div');
+                        section.className = 'level-group-section';
+                        section.innerHTML = `
+                            <h2 class="group-title font-heading">${cat.title}</h2>
+                            <p style="color: var(--text-muted); margin-top: -12px; margin-bottom: 25px; font-size: 0.95rem;">${cat.desc}</p>
+                        `;
+                        const grid = document.createElement('div');
+                        grid.className = 'games-grid';
+                        catGames.forEach(game => {
+                            grid.appendChild(createCard(game));
+                        });
+                        section.appendChild(grid);
+                        container.appendChild(section);
+                    }
+                });
+            } else if (currentView === 'tipo') {
+                const types = [
+                    { id: 'multiple', title: 'Opción Múltiple', desc: 'Juegos interactivos donde seleccionas la respuesta correcta entre varias opciones predefinidas.' },
+                    { id: 'abierta', title: 'Respuesta Abierta', desc: 'Juegos de alta agilidad mental donde escribes directamente el resultado numérico exacto usando el teclado.' }
+                ];
+
+                types.forEach(t => {
+                    const typeGames = filteredGames.filter(g => g.responseType === t.id);
+                    if (typeGames.length > 0) {
+                        const section = document.createElement('div');
+                        section.className = 'level-group-section';
+                        section.innerHTML = `
+                            <h2 class="group-title font-heading">${t.title}</h2>
+                            <p style="color: var(--text-muted); margin-top: -12px; margin-bottom: 25px; font-size: 0.95rem;">${t.desc}</p>
+                        `;
+                        const grid = document.createElement('div');
+                        grid.className = 'games-grid';
+                        typeGames.forEach(game => {
+                            grid.appendChild(createCard(game));
+                        });
+                        section.appendChild(grid);
+                        container.appendChild(section);
+                    }
+                });
+            }
+        }
+
+        function createCard(game) {
+            const card = document.createElement('a');
+            card.href = game.url;
+            card.className = 'game-card-new';
+            card.setAttribute('data-level', game.level);
+            card.setAttribute('data-id', game.id);
+
+            const badgesHtml = `
+                <span class="badge-tag badge-level">Nivel ${game.level}</span>
+                <span class="badge-tag">${game.categoryName}</span>
+                <span class="badge-tag">${game.responseTypeName}</span>
+            `;
+
+            // Retrieve score record from cache
+            const record = GAME_RECORDS[game.id];
+            let recordHtml = '<span class="record-label" style="font-weight: normal; color: var(--text-muted);">Cargando...</span>';
+            if (record) {
+                if (record.score !== null) {
+                    recordHtml = `
+                        <span class="record-label">Récord actual: <span class="record-value">${record.score} pts</span></span>
+                        <span class="record-name">${escapeHtml(record.name)}</span>
+                    `;
+                } else {
+                    recordHtml = `<span class="record-label" style="font-weight: normal; color: var(--text-muted);">Sin récords</span>`;
+                }
+            }
+
+            card.innerHTML = `
+                <div class="card-badges">
+                    ${badgesHtml}
+                </div>
+                <div class="card-header-block">
+                    <div class="game-icon-new">${game.symbol}</div>
+                    <div class="game-title-block">
+                        <h3 class="font-heading">${game.name}</h3>
+                    </div>
+                </div>
+                <div class="game-description">
+                    ${game.desc}
+                </div>
+                <div class="card-footer">
+                    <div class="card-record" id="record-${game.id}">
+                        ${recordHtml}
+                    </div>
+                    <span class="play-action">Jugar ahora ➜</span>
+                </div>
+            `;
+            return card;
+        }
+
+        // Leaderboards dynamic modal
+        function initLeaderboardSelect() {
+            const select = document.getElementById('leaderboard-game-select');
+            select.innerHTML = '';
+            GAMES.forEach(game => {
+                const opt = document.createElement('option');
+                opt.value = game.id;
+                opt.innerText = `${game.symbol} ${game.name}`;
+                select.appendChild(opt);
+            });
+        }
+
+        // Modal triggers
+        function openLeaderboardModal() {
+            document.getElementById('leaderboard-modal-overlay').classList.add('active');
+            loadLeaderboardData();
+        }
+
+        function closeLeaderboardModal() {
+            document.getElementById('leaderboard-modal-overlay').classList.remove('active');
+        }
+
+        function handleOverlayClick(event) {
+            if (event.target === document.getElementById('leaderboard-modal-overlay')) {
+                closeLeaderboardModal();
+            }
+        }
+
+        async function loadLeaderboardData() {
+            const gameId = document.getElementById('leaderboard-game-select').value;
+            const contentDiv = document.getElementById('leaderboard-content');
+            
+            contentDiv.innerHTML = `
+                <div class="lb-loader">
+                    <div class="spinner"></div>
+                    <p>Obteniendo puntuaciones...</p>
+                </div>
+            `;
+            
+            try {
+                if (typeof getTopScores === 'undefined') {
+                    throw new Error("SDK de Firebase no inicializado.");
+                }
+                const scores = await getTopScores(gameId);
+                
+                if (scores.length === 0) {
+                    contentDiv.innerHTML = `
+                        <div class="lb-loader">
+                            <p style="font-size: 2rem;">🎮</p>
+                            <p>¡Nadie ha registrado un récord aún!</p>
+                            <p style="font-size: 0.85rem; font-weight: normal; color: var(--text-muted); margin-top: 5px;">Sé el primero en registrar una puntuación.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '<div style="display:flex; flex-direction:column; gap: 8px;">';
+                scores.forEach((s, idx) => {
+                    let rankBadge = `#${idx + 1}`;
+                    let rankColor = 'var(--text)';
+                    
+                    if (idx === 0) { rankBadge = '#1'; rankColor = 'var(--lvl-1-accent)'; }
+                    else if (idx === 1) { rankBadge = '#2'; rankColor = 'var(--primary)'; }
+                    else if (idx === 2) { rankBadge = '#3'; rankColor = 'var(--secondary)'; }
+                    
+                    const settingsStr = s.settings ? `<span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal; margin-left: 5px;">(${s.settings})</span>` : '';
+                    
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding: 12px 6px; font-family: 'Space Grotesk', sans-serif; font-weight: 700;">
+                            <div style="display:flex; align-items:center; gap: 10px;">
+                                <span style="color: ${rankColor}; font-size:1.05rem; width: 65px; display:inline-block;">${rankBadge}</span>
+                                <span style="color: var(--text); font-size:1rem;">${escapeHtml(s.name)}${settingsStr}</span>
+                            </div>
+                            <div style="font-size: 1.25rem; color: var(--secondary);">${Math.floor(s.score)}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                contentDiv.innerHTML = html;
+                
+            } catch (err) {
+                console.error(err);
+                contentDiv.innerHTML = `
+                    <div class="lb-loader">
+                        <p style="color: var(--secondary);">⚠️ Error al cargar puntuaciones</p>
+                        <p style="font-size: 0.85rem; font-weight: normal; text-align: center;">Verifica tu conexión de internet.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 
 </html>
