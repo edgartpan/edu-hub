@@ -453,14 +453,13 @@
                 
                 if (groupGames.length > 0) {
                     renderedCount++;
-                    const isFirst = renderedCount === 1;
                     
                     const accordionWrapper = document.createElement('div');
                     accordionWrapper.className = 'accordion-wrapper';
                     
                     // Create accordion header
                     const header = document.createElement('div');
-                    header.className = `accordion-header ${isFirst ? 'active' : ''}`;
+                    header.className = 'accordion-header';
                     header.id = `acc-header-${group.id}`;
                     header.onclick = () => toggleAccordion(group.id);
                     
@@ -474,12 +473,12 @@
                             ${badgeHtml}
                             <span>${group.title}</span>
                         </div>
-                        <div class="chevron" style="transform: ${isFirst ? 'rotate(180deg)' : 'rotate(0deg)'};">▼</div>
+                        <div class="chevron">▼</div>
                     `;
                     
                     // Create accordion content
                     const content = document.createElement('div');
-                    content.className = `accordion-content ${isFirst ? 'active' : ''}`;
+                    content.className = 'accordion-content';
                     content.id = `acc-content-${group.id}`;
                     
                     if (group.desc) {
@@ -573,13 +572,6 @@
             card.setAttribute('data-level', game.level);
             card.setAttribute('data-id', game.id);
 
-            const responseTypeShort = game.responseType === 'multiple' ? 'Opción' : 'Abierta';
-
-            const badgesHtml = `
-                <span class="badge-tag badge-level">N${game.level}</span>
-                <span class="badge-tag">${responseTypeShort}</span>
-            `;
-
             // Retrieve score record from cache
             const record = GAME_RECORDS[game.id];
             let recordHtml = '<span class="record-label" style="font-weight: normal; color: var(--text-muted);">Cargando...</span>';
@@ -599,14 +591,10 @@
                     <div class="game-icon-new">${game.symbol}</div>
                 </div>
                 <div class="card-right-block">
-                    <div class="card-header-row">
-                        <div class="card-title-block">
-                            <h3 class="font-heading">${game.name}</h3>
-                        </div>
-                        <div class="card-badges-row">
-                            ${badgesHtml}
-                        </div>
+                    <div class="card-title-block">
+                        <h3 class="font-heading">${game.name}</h3>
                     </div>
+                    <p class="card-desc">${game.desc}</p>
                     <div class="card-footer-row">
                         <div class="card-record" id="record-${game.id}">
                             ${recordHtml}
