@@ -198,3 +198,12 @@ async function handleUnsavedExit(href) {
         window.location.href = href;
     }
 }
+
+// Cloudflare Web Analytics Injection (Tracks all Hub pages and individual games)
+(function() {
+    const cfScript = document.createElement('script');
+    cfScript.defer = true;
+    cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    cfScript.setAttribute('data-cf-beacon', JSON.stringify({ token: '4cc09a3bd86540e89422c1c3c9dc6ac9' }));
+    document.head.appendChild(cfScript);
+})();

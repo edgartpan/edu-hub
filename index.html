@@ -56,7 +56,7 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <p>© 2026 Math Games Hub. Desarrollado con pasión matemática.</p>
+            <p>2026 Math Games Hub. Desarrollado con pasión matemática.</p>
         </footer>
     </div>
 
@@ -465,7 +465,11 @@
                     
                     let badgeHtml = '';
                     if (filterField === 'level') {
-                        badgeHtml = `<span class="badge" style="background-color: ${group.color}; border: 2px solid var(--border); color: ${group.id === 1 ? '#000000' : '#FFFFFF'} !important;">Lvl ${group.id}</span>`;
+                        header.style.backgroundColor = group.color;
+                        if (group.textColor) {
+                            header.style.color = group.textColor;
+                        }
+                        badgeHtml = `<span class="badge" style="background-color: #FFFFFF; border: 2px solid var(--border); color: #000000 !important;">Lvl ${group.id}</span>`;
                     }
                     
                     header.innerHTML = `
@@ -542,10 +546,10 @@
                 container.appendChild(grid);
             } else if (currentView === 'nivel') {
                 const levels = [
-                    { id: 1, title: 'Nivel 1: Fundamentos', desc: 'Operaciones básicas y tamaños', color: 'var(--lvl-1-accent)' },
-                    { id: 2, title: 'Nivel 2: Intermedio', desc: 'Cálculo con múltiples agrupaciones', color: 'var(--lvl-2-accent)' },
-                    { id: 3, title: 'Nivel 3: Desafío Mental', desc: 'Lógica, relaciones inversas y agilidad extrema', color: 'var(--lvl-3-accent)' },
-                    { id: 4, title: 'Nivel 4: Experimento Visual', desc: 'Geometría y lógica visual interactiva', color: 'var(--lvl-4-accent)' }
+                    { id: 1, title: 'Nivel 1: Fundamentos', desc: 'Operaciones básicas y tamaños', color: 'var(--lvl-1-accent)', textColor: '#000000' },
+                    { id: 2, title: 'Nivel 2: Intermedio', desc: 'Cálculo con múltiples agrupaciones', color: 'var(--lvl-2-accent)', textColor: '#FFFFFF' },
+                    { id: 3, title: 'Nivel 3: Desafío Mental', desc: 'Lógica, relaciones inversas y agilidad extrema', color: 'var(--lvl-3-accent)', textColor: '#FFFFFF' },
+                    { id: 4, title: 'Nivel 4: Experimento Visual', desc: 'Geometría y lógica visual interactiva', color: 'var(--lvl-4-accent)', textColor: '#000000' }
                 ];
                 renderGroupedSections(levels, 'level');
             } else if (currentView === 'categoria') {
