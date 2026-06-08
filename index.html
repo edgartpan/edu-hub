@@ -32,12 +32,12 @@
         <!-- Filters and Controls -->
         <section class="control-bar">
             <div class="filter-group">
-                <label for="view-select" class="control-label">Ordenar juegos por:</label>
+                <label for="view-select" class="control-label">Ordenar por:</label>
                 <select id="view-select" class="neobrutal-select" onchange="switchView(this.value)">
                     <option value="nivel">Por Nivel</option>
                     <option value="categoria">Por Categoría</option>
                     <option value="tipo">Por Respuesta</option>
-                    <option value="todos">Todos los Juegos</option>
+                    <option value="todos">Todos</option>
                 </select>
             </div>
         </section>
@@ -469,7 +469,7 @@
                         if (group.textColor) {
                             header.style.color = group.textColor;
                         }
-                        badgeHtml = `<span class="badge" style="background-color: #FFFFFF; border: 2px solid var(--border); color: #000000 !important;">Lvl ${group.id}</span>`;
+                        badgeHtml = `<span class="badge" style="background-color: #FFFFFF; border: 2px solid var(--border); color: #000000 !important;">Nivel ${group.id}</span>`;
                     }
                     
                     header.innerHTML = `
@@ -546,10 +546,10 @@
                 container.appendChild(grid);
             } else if (currentView === 'nivel') {
                 const levels = [
-                    { id: 1, title: 'Nivel 1: Fundamentos', desc: 'Operaciones básicas y tamaños', color: 'var(--lvl-1-accent)', textColor: '#000000' },
-                    { id: 2, title: 'Nivel 2: Intermedio', desc: 'Cálculo con múltiples agrupaciones', color: 'var(--lvl-2-accent)', textColor: '#FFFFFF' },
-                    { id: 3, title: 'Nivel 3: Desafío Mental', desc: 'Lógica, relaciones inversas y agilidad extrema', color: 'var(--lvl-3-accent)', textColor: '#FFFFFF' },
-                    { id: 4, title: 'Nivel 4: Experimento Visual', desc: 'Geometría y lógica visual interactiva', color: 'var(--lvl-4-accent)', textColor: '#000000' }
+                    { id: 1, title: 'Fundamentos', desc: 'Operaciones básicas y tamaños', color: 'var(--lvl-1-accent)', textColor: '#000000' },
+                    { id: 2, title: 'Intermedio', desc: 'Cálculo con múltiples agrupaciones', color: 'var(--lvl-2-accent)', textColor: '#FFFFFF' },
+                    { id: 3, title: 'Desafío Mental', desc: 'Lógica, relaciones inversas y agilidad extrema', color: 'var(--lvl-3-accent)', textColor: '#FFFFFF' },
+                    { id: 4, title: 'Experimento Visual', desc: 'Geometría y lógica visual interactiva', color: 'var(--lvl-4-accent)', textColor: '#000000' }
                 ];
                 renderGroupedSections(levels, 'level');
             } else if (currentView === 'categoria') {

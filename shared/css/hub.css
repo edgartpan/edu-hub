@@ -209,7 +209,7 @@ h1, h2, h3, h4, .font-heading {
     padding: 8px 36px 8px 12px;
     border: 3px solid var(--border);
     border-radius: 10px;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 700;
     background-color: var(--card-bg);
@@ -233,6 +233,11 @@ h1, h2, h3, h4, .font-heading {
 .neobrutal-select:active {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0px var(--shadow);
+}
+
+.neobrutal-select option {
+    font-size: 1rem;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 /* Category Sub-Filters */
