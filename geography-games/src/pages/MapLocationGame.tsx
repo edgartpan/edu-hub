@@ -4,6 +4,9 @@ import { geoCentroid } from 'd3-geo';
 import { GameHeader } from '../components/GameHeader';
 import { Button } from '../components/Button';
 import { countries, type Country, getFlagUrl } from '../data/countries';
+import { useGameScoring } from '../hooks/useGameScoring';
+import { LeaderboardModal } from '../components/LeaderboardModal';
+import { HighScoreModal } from '../components/HighScoreModal';
 import isoMap from '../data/isoMap.json';
 import regionMap from '../data/regionMap.json';
 
@@ -22,7 +25,12 @@ const regionColors: Record<string, string> = {
 };
 
 export const MapLocationGame: React.FC<MapLocationGameProps> = ({ onBack }) => {
-  const [score, setScore] = useState(0);
+  const { 
+    score, streak, highScore, handleCorrect, handleIncorrect,
+    showLeaderboard, setShowLeaderboard, showHighScoreModal,
+    finishGame, submitHighScore, cancelHighScore
+  } = useGameScoring("mapLocation");
+
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
   const [unaskedCountries, setUnaskedCountries] = useState<Country[]>([]);
@@ -79,12 +87,11 @@ export const MapLocationGame: React.FC<MapLocationGameProps> = ({ onBack }) => {
     if (isMatch) {
       setClickedId(geo.id);
       setFeedback('correct');
-      setScore(s => s + 10);
+      handleCorrect(10);
       setTimeout(() => generateQuestion(), 2000);
     } else {
       setClickedId(geo.id);
       setFeedback('incorrect');
-      setScore(s => s - 5);
       
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
@@ -95,6 +102,7 @@ export const MapLocationGame: React.FC<MapLocationGameProps> = ({ onBack }) => {
           setPosition({ coordinates: targetCentroidRef.current, zoom: 3 });
         }
         
+        handleIncorrect(5); // Aplicar castigo solo cuando falla totalmente
         // Show the correct answer and move on
         setTimeout(() => generateQuestion(), 3500);
       } else {
@@ -122,10 +130,18 @@ export const MapLocationGame: React.FC<MapLocationGameProps> = ({ onBack }) => {
 
   return (
     <div className="app-container" style={{ display: 'flex', flexDirection: 'column' }}>
-      <div className="glass-panel" style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <GameHeader title="Localizar en el Mapa" score={score} onBack={onBack} />
-        
-        {currentCountry && (
+      <GameHeader 
+        score={score} 
+        streak={streak}
+        highScore={highScore}
+        onBack={() => finishGame(onBack)}
+        onShowLeaderboard={() => setShowLeaderboard(true)}
+      />
+      
+      <div style={{ padding: '20px 15px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div className="glass-panel" style={{ padding: '20px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          
+          {currentCountry && (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div style={{ marginBottom: '10px', textAlign: 'center' }}>
               <h3 style={{ fontSize: '1.2rem', color: 'var(--text-muted)', margin: 0 }}>Encuentra en el mapa:</h3>
@@ -236,6 +252,23 @@ export const MapLocationGame: React.FC<MapLocationGameProps> = ({ onBack }) => {
           </div>
         )}
       </div>
+    </div>
+
+      {showLeaderboard && (
+        <LeaderboardModal gameId="mapLocation" onClose={() => setShowLeaderboard(false)} />
+      )}
+      
+      {showHighScoreModal && (
+        <HighScoreModal 
+          onSubmit={(initials) => {
+            submitHighScore(initials);
+            generateQuestion(resetGamePool());
+          }} 
+          onCancel={() => {
+            cancelHighScore();
+          }} 
+        />
+      )}
     </div>
   );
 };

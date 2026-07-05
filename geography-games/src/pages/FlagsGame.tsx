@@ -2,13 +2,21 @@ import { useState, useEffect } from 'react';
 import { GameHeader } from '../components/GameHeader';
 import { Button } from '../components/Button';
 import { countries, type Country, getFlagUrl } from '../data/countries';
+import { useGameScoring } from '../hooks/useGameScoring';
+import { LeaderboardModal } from '../components/LeaderboardModal';
+import { HighScoreModal } from '../components/HighScoreModal';
 
 interface FlagsGameProps {
   onBack: () => void;
 }
 
 export const FlagsGame: React.FC<FlagsGameProps> = ({ onBack }) => {
-  const [score, setScore] = useState(0);
+  const { 
+    score, streak, highScore, handleCorrect, handleIncorrect,
+    showLeaderboard, setShowLeaderboard, showHighScoreModal,
+    finishGame, submitHighScore, cancelHighScore
+  } = useGameScoring("flags");
+
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [options, setOptions] = useState<string[]>([]);
   const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
@@ -57,21 +65,29 @@ export const FlagsGame: React.FC<FlagsGameProps> = ({ onBack }) => {
 
     if (currentCountry && selected === currentCountry.name) {
       setFeedback('correct');
-      setScore(s => s + 10);
+      handleCorrect(10);
       setTimeout(generateQuestion, 1000);
     } else {
       setFeedback('incorrect');
-      setScore(s => s - 5);
+      handleIncorrect(5);
       setTimeout(generateQuestion, 3000);
     }
   };
 
   return (
     <div className="app-container">
-      <div className="glass-panel" style={{ padding: '20px', margin: '0 auto' }}>
-        <GameHeader title="Banderas" score={score} onBack={onBack} />
-        
-        {currentCountry && (
+      <GameHeader 
+        score={score} 
+        streak={streak}
+        highScore={highScore}
+        onBack={() => finishGame(onBack)}
+        onShowLeaderboard={() => setShowLeaderboard(true)}
+      />
+      
+      <div style={{ padding: '20px 15px' }}>
+        <div className="glass-panel" style={{ padding: '20px', margin: '0 auto' }}>
+          
+          {currentCountry && (
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
             <h3 style={{ fontSize: '1.2rem', color: 'var(--text-muted)' }}>¿A qué país pertenece esta bandera?</h3>
             
@@ -119,6 +135,23 @@ export const FlagsGame: React.FC<FlagsGameProps> = ({ onBack }) => {
           </div>
         )}
       </div>
+    </div>
+
+      {showLeaderboard && (
+        <LeaderboardModal gameId="flags" onClose={() => setShowLeaderboard(false)} />
+      )}
+      
+      {showHighScoreModal && (
+        <HighScoreModal 
+          onSubmit={(initials) => {
+            submitHighScore(initials);
+            generateQuestion(resetGamePool());
+          }} 
+          onCancel={() => {
+            cancelHighScore();
+          }} 
+        />
+      )}
     </div>
   );
 };
