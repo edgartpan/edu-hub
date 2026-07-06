@@ -74,6 +74,9 @@ export const Home: React.FC<HomeProps> = ({ onSelectGame }) => {
 
         </div>
       </div>
+      <div className="donation-banner">
+        Si esta aplicación te resultó útil, puedes <a href="https://paypal.me/edgartpan?country.x=MX&locale.x=es_XC" target="_blank" rel="noreferrer">donar aquí</a>
+      </div>
     </div>
   );
 };
