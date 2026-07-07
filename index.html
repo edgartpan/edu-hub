@@ -106,6 +106,35 @@
         .card.geo h2 {
             color: var(--geo);
         }
+        .donation-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FFF200;
+            color: black;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            border-top: 3px solid black;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .donation-banner a {
+            color: #FF2977;
+            text-decoration: none;
+            background-color: white;
+            padding: 2px 8px;
+            border: 2px solid black;
+            border-radius: 5px;
+            margin-left: 5px;
+            transition: all 0.2s;
+        }
+        .donation-banner a:hover {
+            background-color: #FF2977;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -128,6 +157,10 @@
             <p>Países, capitales, continentes y mapas.</p>
         </a>
     </div>
+</div>
+
+<div class="donation-banner">
+    Si esta aplicación te resultó útil, puedes <a href="https://paypal.me/edgartpan?country.x=MX&locale.x=es_XC" target="_blank" rel="noreferrer">donar aquí</a>
 </div>
 
 </body>
