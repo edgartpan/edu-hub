@@ -61,9 +61,13 @@ export const HighScoreModal: React.FC<HighScoreModalProps> = ({ onSubmit, onCanc
         </div>
         <form onSubmit={handleSubmit}>
           <input 
+            className="name-input"
             type="text" 
             maxLength={15} 
             autoComplete="off" 
+            spellCheck="false"
+            autoCorrect="off"
+            autoCapitalize="none"
             placeholder="Tu nombre..."
             value={initials}
             onChange={(e) => setInitials(e.target.value)}
