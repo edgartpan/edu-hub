@@ -109,31 +109,33 @@
         .donation-banner {
             position: fixed;
             bottom: 0;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
-            background-color: #FFF200;
-            color: black;
+            background-color: #E5E7EB;
+            padding: 10px 0;
             text-align: center;
-            padding: 10px;
-            font-weight: bold;
             font-size: 14px;
+            color: #333;
+            z-index: 50;
             border-top: 3px solid black;
-            z-index: 1000;
             box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
         .donation-banner a {
-            color: #FF2977;
-            text-decoration: none;
-            background-color: white;
-            padding: 2px 8px;
-            border: 2px solid black;
-            border-radius: 5px;
+            color: #333;
+            text-decoration: underline;
+            font-weight: bold;
+            background-color: transparent;
+            padding: 0;
+            border: none;
             margin-left: 5px;
-            transition: all 0.2s;
         }
-        .donation-banner a:hover {
-            background-color: #FF2977;
-            color: white;
+        @media (min-width: 768px) {
+            .donation-banner {
+                font-size: 16px;
+                padding: 12px 0;
+            }
         }
     </style>
 </head>

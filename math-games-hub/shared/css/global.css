@@ -146,19 +146,24 @@ body {
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 500px;
-    background-color: #dfdfdf;
+    background-color: #E5E7EB;
     padding: 10px 0;
     text-align: center;
     font-size: 14px;
     color: #333;
     z-index: 50;
-    border-top: 1px solid #ccc;
+    border-top: 3px solid black;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 .donation-banner a {
     color: #333;
     text-decoration: underline;
     font-weight: bold;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    margin-left: 5px;
 }
 
 @media (min-width: 768px) {

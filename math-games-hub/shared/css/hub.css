@@ -689,12 +689,6 @@ h1, h2, h3, h4, .font-heading {
     font-size: 1.1rem;
 }
 
-/* Override donation banner to be full screen width on the Hub Home Page */
-.donation-banner {
-    max-width: 100% !important;
-    border-top: 3px solid var(--border) !important;
-    background-color: #E5E7EB !important;
-}
 
 /* Return Edu Button */
 .return-edu-btn {
